@@ -23,7 +23,7 @@ node main.js /path/to/file1 /path/to/file2
 
 - Add test coverage in JS (`lisp.core` has tests that run when the repl is initialized)
 - Add argument destructuring (at least to allow `(lambda (x y & rest) ... )`)
-- Add the `'` syntax sugar
+- ~~Add the `'` syntax sugar~~
 - Support for comments: `;`
 - A `let` form that is like using `begin` and `define`, but introduces new scope.
 - ~~Support for pressing arrow keys in the repl as well as line history~~
