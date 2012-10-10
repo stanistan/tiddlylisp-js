@@ -163,79 +163,78 @@
     (check-assertion x y (not (eq? x y)))))
 
 (assert-equal
-  (eval (q x) (q ((x test-value))))
-  (q test-value))
+  (eval 'x '((x test-value)))
+  'test-value)
 
 (assert-equal
-  (eval (q y)
-        (q ((y (1 2 3)))))
-  (q (1 2 3)))
+  (eval 'y '((y (1 2 3))))
+  '(1 2 3))
 
 (assert-not-equal
-  (eval (q z) (q ((z ((1) 2 3)))))
-  (q (1 2 3)))
+  (eval 'z '((z ((1) 2 3))))
+  '(1 2 3))
 
 (assert-equal
-  (eval (q (quote 7)) (q ()))
-  (q 7))
+  (eval '(quote 7) '())
+  '7)
 
 (assert-equal
-  (eval (q (atom? (q (1 2)))) (q ()))
+  (eval (q (atom? '(1 2))) '())
   false)
 
 (assert-equal
-  (eval (q (eq? 1 1)) (q ((1 1))))
+  (eval '(eq? 1 1) '((1 1)))
   true)
 
 (assert-equal
-  (eval (q (eq? 1 2)) (q ((1 1) (2 2))))
+  (eval '(eq? 1 2) '((1 1) (2 2)))
   false)
 
 (assert-equal
-  (eval (q (eq? 1 1)) (q ((1 1))))
+  (eval '(eq? 1 1) '((1 1)))
   true)
 
 (assert-equal
-  (eval (q (car (q (3 2)))) (q ()))
-  (q 3))
+  (eval '(car '(3 2)) '())
+  '3)
 
 (assert-equal
-  (eval (q (cdr (q (1 2 3)))) (q ()))
-  (q (2 3)))
+  (eval '(cdr '(1 2 3)) '())
+  '(2 3))
 
 (assert-not-equal
-  (eval (q (cdr (q (1 (2 3) 4)))) (q ()))
-  (q (2 3 4)))
+  (eval '(cdr '(1 (2 3) 4)) '())
+  '(2 3 4))
 
 (assert-equal
   (eval
-    (q (cons 1 (q (2 3))))
-    (q ((1 1)(2 2)(3 3))))
-  (q (1 2 3)))
+    '(cons 1 (q (2 3)))
+    '((1 1)(2 2)(3 3)))
+  '(1 2 3))
 
 (assert-equal
-  (eval (q (cond ((atom? x) (q x-atomic))
-           ((atom? y) (q y-atomic))
-           ((q True) (q nonatomic))))
-        (q ((x 1)(y (3 4)))))
-  (q x-atomic))
+  (eval '(cond ((atom? x) 'x-atomic)
+           ((atom? y) 'y-atomic)
+           ('true 'nonatomic))
+        '((x 1) (y (3 4))))
+  'x-atomic)
 
 (assert-equal
-  (eval (q (cond ((atom? x) (q x-atomic))
-           ((atom? y) (q y-atomic))
-           ((q true) (q nonatomic))))
-        (q ((x (1 2))(y 3))))
-  (q y-atomic))
+  (eval '(cond ((atom? x) 'x-atomic)
+           ((atom? y) 'y-atomic)
+           ('true 'nonatomic))
+        '((x (1 2)) (y 3)))
+  'y-atomic)
 
 (assert-equal
-  (eval (q (cond ((atom? x) (q x-atomic))
-           ((atom? y) (q y-atomic))
-           ((q true) (q nonatomic))))
-        (q ((x (1 2))(y (3 4)))))
-  (q nonatomic))
+  (eval '(cond ((atom? x) 'x-atomic)
+           ((atom? y) 'y-atomic)
+           ('true 'nonatomic))
+        '((x (1 2)) (y (3 4))))
+  'nonatomic)
 
 (assert-equal
   (eval
-    (q ((lambda (x) (car (cdr x))) (q (1 2 3 4))))
-    (q ()))
+    '((lambda (x) (car (cdr x))) '(1 2 3 4))
+    '())
   2)
