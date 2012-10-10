@@ -18,3 +18,9 @@ node main.js
 ```
 node main.js /path/to/file1 /path/to/file2
 ```
+
+## Still needs to be done
+
+- Add test coverage in JS (`lisp.core` has tests that run when the repl is initialized)
+- Add argument destructuring (at least to allow `(lambda (x y & rest) ... )`)
+- Add the `'` syntax sugar
