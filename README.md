@@ -26,3 +26,5 @@ node main.js /path/to/file1 /path/to/file2
 - Add the `'` syntax sugar
 - Support for comments: `;`
 - A `let` form that is like using `begin` and `define`, but introduces new scope.
+- ~~Support for pressing arrow keys in the repl as well as line history~~
+- In the repl, don't execute a form if it doesn't have a closing paren, allow multiple line forms
