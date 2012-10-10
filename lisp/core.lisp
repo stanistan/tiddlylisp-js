@@ -104,31 +104,33 @@
 
 (define eval
   (lambda (e a)
-    (cond
-      ((atom? e)
-        (assoc e a))
-      ((atom? (car e))
-        (cond
-          ((eq? (car e) (q car))
-            (car (eval (cadr e) a)))
-          ((eq? (car e) (q cdr))
-            (cdr (eval (cadr e) a)))
-          ((eq? (car e) (q cons))
-            (cons (eval (cadr e) a) (eval (caddr e) a)))
-          ((eq? (car e) (q atom?))
-            (atom? (eval (cadr e) a)))
-          ((eq? (car e) (q eq?))
-            (eq? (eval (cadr e) a) (eval (caddr e) a)))
-          ((eq? (car e) (q quote))
-            (cadr e))
-          ((eq? (car e) (q q))
-            (cadr e))
-          ((eq? (car e) (q cond))
-            (evcon (cdr e) a))
-          (true
-            (eval (cons (assoc (car e) a) (cdr e)) a))))
-      ((eq? (caar e) (q lambda))
-        (eval (caddar e) (append (pairlis (cadar e) (evlis (cdr e) a)) a))))))
+    (begin
+      (set! a (if (null? a) '() a))
+      (cond
+        ((atom? e)
+          (assoc e a))
+        ((atom? (car e))
+          (cond
+            ((eq? (car e) (q car))
+              (car (eval (cadr e) a)))
+            ((eq? (car e) (q cdr))
+              (cdr (eval (cadr e) a)))
+            ((eq? (car e) (q cons))
+              (cons (eval (cadr e) a) (eval (caddr e) a)))
+            ((eq? (car e) (q atom?))
+              (atom? (eval (cadr e) a)))
+            ((eq? (car e) (q eq?))
+              (eq? (eval (cadr e) a) (eval (caddr e) a)))
+            ((eq? (car e) (q quote))
+              (cadr e))
+            ((eq? (car e) (q q))
+              (cadr e))
+            ((eq? (car e) (q cond))
+              (evcon (cdr e) a))
+            (true
+              (eval (cons (assoc (car e) a) (cdr e)) a))))
+        ((eq? (caar e) (q lambda))
+          (eval (caddar e) (append (pairlis (cadar e) (evlis (cdr e) a)) a)))))))
 
 (define evcon
   (lambda (c a)
