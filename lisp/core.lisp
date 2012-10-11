@@ -6,23 +6,27 @@
 (define caddr (lambda (x) (cadr (cdr x))))
 (define caddar (lambda (x) (caddr (car x))))
 
-(define comp
+(define identity
+  (lambda (x)
+    x))
+
+(define comp1
   (lambda (f1 f2)
-    (lambda (x)
-      (f1 (f2 x)))))
+    (lambda (& args)
+      (f1 (apply f2 args)))))
 
 (define first car)
 
 (define rest cdr)
 
 (define second
-  (comp first rest))
+  (comp1 first rest))
 
 (define ffirst
-  (comp first first))
+  (comp1 first first))
 
 (define frest
-  (comp rest first))
+  (comp1 rest first))
 
 (define count
   (lambda (x)
@@ -55,6 +59,25 @@
             (check (rest seq)))))
       (if (null? s) null (check s)))))
 
+(define comp
+  (lambda (& fns)
+    (if (> (count fns) 2)
+      (apply recur (append (butlast (butlast fns))
+                          (list (comp1 (last (butlast fns)) (last fns)))))
+      (apply comp1 (list (first fns) (second fns))))))
+
+(define partial1
+  (lambda (f a)
+    (lambda (& args)
+      (apply f (cons a args)))))
+
+(define partial
+  (lambda (f & args)
+    (if (null? args)
+      f
+      (apply partial (cons (partial1 f (car args))
+                           (cdr args))))))
+
 (define map
   (lambda (f s)
     (if (null? s) s
@@ -81,6 +104,39 @@
       (set! init (if (= s init) (first s) init))
       (set! s (if (= init (first s)) (rest s) s))
       (reducer f init s))))
+
+(define nth
+  (lambda (s n)
+    (if (null? s) null
+      (begin
+        (cond
+          ((= n 0) (first s))
+          ((= n 1) (second s))
+          (true (nth (rest s) (dec n))))))))
+
+(define swap
+  (lambda ((x y))
+    (list y x)))
+
+(define for
+  (lambda (start end f)
+    (begin
+      (if (>= start end) null
+        (begin
+          (f start)
+          (recur (inc start) end f))))))
+
+(define butlast
+  (lambda (s)
+    (if (null? s) null
+      (begin
+        (define l (count s))
+        (define acc '())
+        (for 0 l
+          (lambda (i)
+            (when (> (dec l) i)
+              (set! acc (append acc (list (nth s i)))))))
+        acc))))
 
 (define append
   (lambda (x y)
