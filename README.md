@@ -22,11 +22,11 @@ node main.js /path/to/file1 /path/to/file2
 ## Still needs to be done
 
 - Add test coverage in JS (`lisp.core` has tests that run when the repl is initialized)
-- Add argument destructuring (at least to allow `(lambda (x y & rest) ... )`)
 - Support for comments: `;`
 - A `let` form that is like using `begin` and `define`, but introduces new scope.
 - Macro support
 - `(load-file)` form to include other files.
+- ~~Add argument destructuring (at least to allow `(lambda (x y & rest) ... )`)~~
 - ~~Support for pressing arrow keys in the repl as well as line history~~
 - ~~In the repl, don't execute a form if it doesn't have a closing paren, allow multiple line forms.~~
 - ~~Add the `'` syntax sugar~~
