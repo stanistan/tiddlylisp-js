@@ -1,3 +1,5 @@
+;; Core Library of this tiddlylisp.
+
 (define caar (lambda (x) (car (car x))))
 (define cadr (lambda (x) (car (cdr x))))
 (define cadar (lambda (x) (cadr (car x))))
@@ -26,6 +28,10 @@
   (lambda (x)
     (if (null? x) 0
       (+ 1 (count (rest x))))))
+
+(define list
+  (lambda (& args)
+    args))
 
 (define not
   (lambda (x)
