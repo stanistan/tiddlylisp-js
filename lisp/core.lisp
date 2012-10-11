@@ -9,13 +9,9 @@
     (lambda (x)
       (f1 (f2 x)))))
 
-(define first
-  (lambda (s)
-    (car s)))
+(define first car)
 
-(define rest
-  (lambda (s)
-    (cdr s)))
+(define rest cdr)
 
 (define second
   (comp first rest))
@@ -25,6 +21,11 @@
 
 (define frest
   (comp rest first))
+
+(define count
+  (lambda (x)
+    (if (null? x) 0
+      (+ 1 (count (rest x))))))
 
 (define not
   (lambda (x)
