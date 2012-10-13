@@ -1,3 +1,2 @@
 language: node_js
-before_scirpt: npm install jasmine-node
-script: jasmine-node ./spec
+before_script: sudo npm i -g jasmine-node
