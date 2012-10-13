@@ -21,10 +21,10 @@ node main.js /path/to/file1 /path/to/file2
 
 ## Still needs to be done
 
-- Add test coverage in JS (`lisp.core` has tests that run when the repl is initialized)
-- A `let` form that is like using `begin` and `define`, but introduces new scope.
 - Macro support
-- `(load-file)` form to include other files.
+- A `let` form that is like using `begin` and `define`, but introduces new scope.
+- ~~`(load-file)` form to include other files.~~
+- ~~Add test coverage in JS (`lisp.core` has tests that run when the repl is initialized)~~
 - ~~Support for comments: `;`~~
 - ~~Add argument destructuring (at least to allow `(lambda (x y & rest) ... )`)~~
 - ~~Support for pressing arrow keys in the repl as well as line history~~
