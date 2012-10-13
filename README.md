@@ -1,4 +1,4 @@
-# TiddlyLisp in JS
+# TiddlyLisp in JS [![Build Status](https://secure.travis-ci.org/stanistan/tiddlylisp-js.png)](http://travis-ci.org/stanistan/tiddlylisp-js)
 
 An implimentation of [Lisp as the Maxwell’s equations of software](http://www.michaelnielsen.org/ddi/lisp-as-the-maxwells-equations-of-software/)
 in Javascript intead of Python.
