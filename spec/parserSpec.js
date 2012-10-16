@@ -1,5 +1,5 @@
 var _ = require('./../lib/parser.js')
-  , Symbol = require('./../lib/utils.js').Symbol;
+  , Symbol = require('./../lib/types.js').Symbol;
 
 describe('expandQuotes', function() {
   it('should expand around forms', function() {

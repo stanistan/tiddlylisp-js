@@ -1,4 +1,5 @@
-var _ = require('./../lib/utils.js');
+var _ = require('./../lib/utils.js')
+  , types = require('./../lib/types.js');
 
 describe('zipmap', function() {
   var arg1 = ['a', 'b', 'c']
@@ -84,7 +85,7 @@ describe('isString', function() {
 
 describe('str', function() {
   it('returns string representations', function() {
-    var s = new _.Symbol('a');
+    var s = new types.Symbol('a');
     expect(_.str(function n() { })).toEqual('n');
     expect(_.str(function() { })).toEqual('[Function]');
     expect(_.str('a')).toEqual('a');
@@ -98,7 +99,7 @@ describe('atom', function() {
   it('returns value representations', function() {
     expect(_.atom(1)).toEqual(1);
     expect(_.atom('"a"')).toEqual('"a"');
-    expect(_.atom('a')).toEqual(new _.Symbol('a'));
+    expect(_.atom('a')).toEqual(new types.Symbol('a'));
   });
 });
 
