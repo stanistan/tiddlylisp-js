@@ -1,5 +1,5 @@
 var exps = require('./../lib/parser/expanders.js')
- ,  e = exps.fns
+  , e = exps.fns
   , _ = require('./../lib/utils.js');
 
 describe('exports', function() {
