@@ -304,7 +304,11 @@
     '())
   2)
 
-(put 'macroeval 'special-form
+(define str-join
+  (lambda (glue s)
+    (reduce (lambda (a b) (str a glue b)) s)))
+
+(put 'macroeval 'macro
   (lambda (x)
     (macroeval x)))
 
