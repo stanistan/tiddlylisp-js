@@ -303,3 +303,40 @@
     '((lambda (x) (car (cdr x))) '(1 2 3 4))
     '())
   2)
+
+(define macroexpand
+  (lambda (exp)
+    (if (atom? exp)
+        exp
+        (if (get (car exp) 'special-form)
+            ((get (car exp) 'special-form) exp)
+            (if (get (car exp) 'macro)
+                (macroexpand ((get (car exp) 'macro) (cdr exp)))
+                (map macroexpand exp))))))
+
+(define-macro 'and
+  (lambda (& args)
+    (if (null? args)
+        t
+        (if (null? (cdr args))
+            (car args)
+            (list 'if (car args) (cons 'and (cdr args)))))))
+
+(define-macro 'or
+  (lambda (& args)
+    (if (null? args)
+        nil
+        (if (null? (cdr args))
+            (car args)
+            (list
+              ((lambda (test-var)
+                (list 'lambda (list test-var)
+                  (list 'if test-var test-var (cons 'or (cdr args)))))
+               (gensym))
+              (car args))))))
+
+(define-macro 'let
+  (lambda (& args)
+    (cons
+      (cons 'lambda (cons (map car (car args)) (cdr args)))
+      (map cadr (car args)))))
