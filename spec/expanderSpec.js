@@ -5,12 +5,13 @@ var exps = require('./../lib/parser/expanders.js')
 describe('exports', function() {
 
   var isFn = function(a) {
-    expect(_.isFunction(a)).toBe(true);
+    console.log('fn', a);
+    return expect(_.isFunction(a)).toBe(true);
   };
 
   it('should have functions', function() {
     isFn(e.expand_q);
-    isFn(e.expand_macroexpand);
+    isFn(e.expand_macroexpandq);
     isFn(e.expand_macroeval);
     isFn(e.expand_macrosplice);
   });
@@ -21,7 +22,7 @@ var cnf = exps.configuration
   , conf_pt = _.partition(cnf, 2)
   , find = function(n) {
       return conf_pt.reduce(function(p, c) {
-        return (p ? p : (c[1] == n ? c : null));
+        return (p ? p : (c[1].split(' ').join('') == n ? c : null));
       }, null);
     };
 
