@@ -314,6 +314,10 @@
                 (macroexpand ((get (car exp) 'macro) (cdr exp)))
                 (map macroexpand exp))))))
 
+(define define-macro
+  (lambda (keyword expander)
+    (put keyword 'macro expander)))
+
 (define-macro 'and
   (lambda (& args)
     (if (null? args)

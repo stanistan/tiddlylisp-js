@@ -6,11 +6,16 @@ var lisp = require('./lib/parser.js')
 
 var parser = new lisp.Parser();
 
-// read core
-file.read('./lisp/core.lisp', parser, function() {
+try {
+  // read core
+  file.read('./lisp/core.lisp', parser, function() {
 
-  file.load(process.argv.slice(2), parser, function() {
-    repl.init('=> ', parser);
+    file.load(process.argv.slice(2), parser, function() {
+      repl.init('=> ', parser);
+    });
+
   });
 
-});
+} catch (e) {
+  console.log(e);
+}
