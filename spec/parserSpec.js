@@ -95,11 +95,13 @@ describe('parser', function() {
 
   it('evalutates built in functions', function() {
     expect(p('(+ 1 2)')).toEqual(3);
+    expect(p('(null? \'()')).toEqual('true')
   });
 
   it('evaluates user-defined functions', function() {
     p('(define t (lambda (x y) (+ x y)))');
     expect(p('(t 1 2)')).toEqual(3);
+    expect(p('t')).toEqual('recur');
   });
 
 });
