@@ -21,8 +21,9 @@ node main.js /path/to/file1 /path/to/file2
 
 ## Still needs to be done
 
-- Macro support
-- A `let` form that is like using `begin` and `define`, but introduces new scope.
+- working symbols for backquote, splice, and eval
+- ~~Macro support~~
+- ~~A `let` form that is like using `begin` and `define`, but introduces new scope.~~
 - ~~`(load-file)` form to include other files.~~
 - ~~Add test coverage in JS (`lisp.core` has tests that run when the repl is initialized)~~
 - ~~Support for comments: `;`~~
