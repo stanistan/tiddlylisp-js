@@ -15,6 +15,19 @@ describe('zipmap', function() {
   });
 });
 
+describe('partition', function() {
+  it('should partition equally', function() {
+    expect(_.partition([1, 2, 3, 4], 2)).toEqual([[1, 2], [3, 4]]);
+  });
+  it('should put remainders in somewhere', function() {
+    expect(_.partition([1, 2, 3], 2)).toEqual([[1, 2], [3]]);
+  });
+  it('should nest', function() {
+    var a = [1, 2, 3];
+    expect(_.partition(a, a.length)).toEqual([a]);
+  });
+});
+
 describe('args', function() {
   it('should return an array', function() {
     expect((function() { return _.args(arguments); })(1, 2, 3)).toEqual([1, 2, 3]);
