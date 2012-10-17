@@ -304,6 +304,10 @@
     '())
   2)
 
+(put 'macroeval 'special-form
+  (lambda (x)
+    (macroeval x)))
+
 (define macroexpand
   (lambda (exp)
     (if (atom? exp)
@@ -321,7 +325,7 @@
 (define-macro 'and
   (lambda (& args)
     (if (null? args)
-        t
+        false
         (if (null? (cdr args))
             (car args)
             (list 'if (car args) (cons 'and (cdr args)))))))
