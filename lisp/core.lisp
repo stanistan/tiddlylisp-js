@@ -315,7 +315,7 @@
 (define macroquote
   (lambda (exp)
     (begin
-      (define mm (lambda (x) (if (atom? x) x (map mm x))))
+      (define mm (lambda (x) (if (atom? x) '(quote x) (map mm x))))
       (mm exp))))
 
 (define macroexpand
