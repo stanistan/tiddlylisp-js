@@ -2,7 +2,8 @@
 
 var lisp = require('./lib/parser.js')
   , file = require('./lib/file.js')
-  , repl = require('./lib/repl.js');
+  , repl = require('./lib/repl.js')
+  , _ = require('./lib/utils.js');
 
 var parser = new lisp.Parser()
   , args = process.argv.slice(2)
@@ -28,4 +29,7 @@ try {
 
 } catch (e) {
   console.log(e);
+  if (!_.isObject(e) || !e.type) {
+    throw e;
+  }
 }

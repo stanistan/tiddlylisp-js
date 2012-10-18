@@ -3,6 +3,24 @@
 An implimentation of [Lisp as the Maxwell’s equations of software](http://www.michaelnielsen.org/ddi/lisp-as-the-maxwells-equations-of-software/)
 in Javascript intead of Python.
 
+## Current Issue
+
+Macros using backtick are being evaluated outside of the scope of definition.
+
+So in this scenario:
+
+```lisp
+(defmacro 'test
+  (lambda (x y)
+    `(,+ ,y ,x)))
+
+(t 1 2)
+; => error: x is undefined
+```
+
+It looks like the macro function itself is returning the form and the `,` is evaluated
+afterwards.
+
 ## Usage
 
 In git directory.

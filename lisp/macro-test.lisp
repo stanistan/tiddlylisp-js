@@ -5,13 +5,26 @@
 
 (print `(+ ,a b))
 
-(print (unquote `(,+ ,a ,b)))
+(print 'three? (unquote `(,+ ,a ,b)))
 
 (defmacro 't
   (lambda (x y)
-    `(,y ,x)))
+    `(,+ ,x ,y)))
 
-(print (t 1 2))
+
+(print '(should be 3) (t 1 2))
+
+; (define add
+;   (lambda (& args)
+;     (let ((a (cons + args)))
+;       (apply partial a))))
+
+; (define adder (add 1 2 3 4))
+
+; (print (adder 10))
+
+; (print (add 1 2 3 4))
+; (print ())
 
 ; (print `(a b))
 
