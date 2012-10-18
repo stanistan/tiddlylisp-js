@@ -312,10 +312,15 @@
   (lambda (x)
     (unquote x)))
 
-(define macroquote
+(put 'macroquote 'macro
   (lambda (exp)
     (begin
-      (define mm (lambda (x) (if (atom? x) '(quote x) (map mm x))))
+      (define mm
+        (lambda (x)
+          (if (atom? x) (list 'quote x)
+            (if (eq? (car x) 'macroeval)
+              ((get 'macroeval 'macro) x)
+              (map mm x)))))
       (mm exp))))
 
 (define macroexpand
@@ -328,11 +333,11 @@
                 (macroexpand ((get (car exp) 'macro) (cdr exp)))
                 (map macroexpand exp))))))
 
-(define define-macro
+(define defmacro
   (lambda (keyword expander)
     (put keyword 'macro expander)))
 
-(define-macro 'and
+(defmacro 'and
   (lambda (& args)
     (if (null? args)
         false
@@ -340,10 +345,10 @@
             (car args)
             (list 'if (car args) (cons 'and (cdr args)))))))
 
-(define-macro 'or
+(defmacro 'or
   (lambda (& args)
     (if (null? args)
-        nil
+        null
         (if (null? (cdr args))
             (car args)
             (list
@@ -353,7 +358,7 @@
                (gensym))
               (car args))))))
 
-(define-macro 'let
+(defmacro 'let
   (lambda (& args)
     (cons
       (cons 'lambda (cons (map car (car args)) (cdr args)))
