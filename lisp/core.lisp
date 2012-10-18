@@ -310,7 +310,13 @@
 
 (put 'macroeval 'macro
   (lambda (x)
-    (macroeval x)))
+    (unquote x)))
+
+(define macroquote
+  (lambda (exp)
+    (begin
+      (define mm (lambda (x) (if (atom? x) x (map mm x))))
+      (mm exp))))
 
 (define macroexpand
   (lambda (exp)
