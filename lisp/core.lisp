@@ -66,6 +66,9 @@
                           (list (comp1 (last (butlast fns)) (last fns)))))
       (apply comp1 (list (first fns) (second fns))))))
 
+(define list?
+  (comp not atom?))
+
 (define partial1
   (lambda (f a)
     (lambda (& args)
@@ -312,6 +315,10 @@
   (lambda (x)
     (unquote x)))
 
+(put 'macrosplice 'macro
+  (lambda (f & rest)
+    (cons f rest)))
+
 (put 'macroquote 'macro
   (lambda (exp)
     (begin
@@ -323,22 +330,41 @@
               (map mm x)))))
       (mm exp))))
 
+(define t
+  (lambda (p)
+    (if (and (list? p) (eq? (car p) 'unquote))
+      (let ((body (cadr p)))
+        (if (and (list? body) (eq? (car body) 'splice))
+          (cadr body)
+          (list 'list body)))
+      (list 'list (list 'backquote p)))))
+
+(put 'backquote 'macro
+  (lambda (exp)
+    (let ((body (car exp)))
+      (if (atom? body)
+        (list 'quote body)
+        (cons 'append (map t body))))))
+
+(define macroexpand1
+  (lambda (exp)
+    (begin
+      (define expander (get (car exp) 'macro))
+        (expander (cdr exp)))))
+
 (define macroexpand
   (lambda (exp)
-    (if (atom? exp)
-        exp
-        (if (get (car exp) 'special-form)
-            ((get (car exp) 'special-form) exp)
-            (if (get (car exp) 'macro)
-                (macroexpand ((get (car exp) 'macro) (cdr exp)))
-                (map macroexpand exp))))))
+    (let ((expander (get (car exp) 'macro)))
+      (if expander
+        (macroexpand (macroexpand1 exp))
+        exp))))
 
 (define defmacro
   (lambda (keyword expander)
     (put keyword 'macro expander)))
 
 (defmacro 'and
-  (lambda (& args)
+  (lambda (args)
     (if (null? args)
         false
         (if (null? (cdr args))
@@ -346,7 +372,7 @@
             (list 'if (car args) (cons 'and (cdr args)))))))
 
 (defmacro 'or
-  (lambda (& args)
+  (lambda (args)
     (if (null? args)
         null
         (if (null? (cdr args))
@@ -359,7 +385,7 @@
               (car args))))))
 
 (defmacro 'let
-  (lambda (& args)
+  (lambda (args)
     (cons
       (cons 'lambda (cons (map car (car args)) (cdr args)))
       (map cadr (car args)))))
