@@ -21,10 +21,9 @@ node main.js /path/to/file1 /path/to/file2
 
 ## Still needs to be done
 
-- working symbols for backquote, splice, and unquote
-
 #### Things that are done (ish)
 
+- ~~working symbols for backquote, splice, and unquote~~
 - ~~Macro support~~
 - ~~A `let` form that is like using `begin` and `define`, but introduces new scope.~~
 - ~~`(load-file)` form to include other files.~~
