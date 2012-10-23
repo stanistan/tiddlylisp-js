@@ -141,9 +141,14 @@
               (set! acc (append acc (list (nth s i)))))))
         acc))))
 
-(define append
+(define append1
   (lambda (x y)
     (if (null? x) y (cons (first x) (append (rest x) y)))))
+
+(define append
+  (lambda (x y & rest)
+    (if (null? rest) (append1 x y)
+      (apply append (cons (append1 x y) rest)))))
 
 (define pair
   (lambda (x y)
@@ -330,21 +335,32 @@
               (map mm x)))))
       (mm exp))))
 
-(define t
-  (lambda (p)
-    (if (and (list? p) (eq? (car p) 'unquote))
-      (let ((body (cadr p)))
-        (if (and (list? body) (eq? (car body) 'splice))
-          (cadr body)
-          (list 'list body)))
-      (list 'list (list 'backquote p)))))
+(define first-is
+  (lambda (first exp)
+    (and (list? exp) (eq? (car exp) first))))
+
+(define first-is-unquote?
+  (partial first-is 'unquote))
+
+(define first-is-splice?
+  (partial first-is 'splice))
 
 (put 'backquote 'macro
   (lambda (exp)
-    (let ((body (car exp)))
+    (begin
+      (define body (car exp))
+      (define t
+        (lambda (p)
+          (if (first-is-unquote? p)
+            (begin
+              (define body (cadr p))
+              (if (first-is-splice? body)
+                (cadr body)
+                (list 'list body)))
+            (list 'list (list 'backquote p)))))
       (if (atom? body)
         (list 'quote body)
-        (cons 'append (map t body))))))
+        (cons 'append '() (map t body))))))
 
 (define macroexpand1
   (lambda (exp)

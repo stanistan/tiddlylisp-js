@@ -7,11 +7,11 @@
 
 ; (print 'three? (unquote `(,+ ,a ,b)))
 
-; (defmacro 't
-;   (lambda (x y)
-;     `(,+ ,x ,y)))
+(defmacro 't
+  (lambda ((x y))
+    `(,+ ,x ,y)))
 
-; (print '(should be 3) (t 1 2))
+(print '(should be 3) (t 1 2))
 
 ; ; (define add
 ; ;   (lambda (& args)
@@ -42,4 +42,4 @@
 (print (macroexpand1 '(backquote (a (unquote b) (unquote (splice c))))))
 (print (macroexpand1 '(backquote (a (unquote (splice b)) c (unquote (splice d))))))
 (print (macroexpand '(backquote (a (unquote (splice b)) c (unquote d)))))
-
+(print (macroexpand1 '(t 1 2)))

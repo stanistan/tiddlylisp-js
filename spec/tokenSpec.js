@@ -35,6 +35,13 @@ describe('tokenizeLine', function() {
   });
 });
 
+describe('with-expanding', function() {
+  it('should work if the symbols are next to each other', function() {
+    var l = ',@body';
+    expect(_.tokenize(l)).toEqual(['(', 'unquote', '(', 'splice', 'body', ')', ')']);
+  });
+});
+
 describe('reader', function() {
 
   var reader = _.reader;
@@ -51,3 +58,4 @@ describe('reader', function() {
     expect(reader(['(', 'a', ')']).found).toEqual([new Symbol('a')]);
   })
 });
+

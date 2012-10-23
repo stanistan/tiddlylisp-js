@@ -21,7 +21,7 @@ node main.js /path/to/file1 /path/to/file2
 
 ## Still needs to be done
 
-- working symbols for backquote, splice, and eval
+- working symbols for backquote, splice, and unquote
 
 #### Things that are done (ish)
 
